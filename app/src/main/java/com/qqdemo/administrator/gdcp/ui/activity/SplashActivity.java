@@ -42,14 +42,14 @@ public class SplashActivity extends BaseActivity implements SplashView {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                goTo(LoginActivity.class);
+                goTo(LoginActivity.class,true);
             }
         },DELAY);
     }
 
     //跳转到主界面
     private void navigateToMain() {
-       goTo( MainActivity.class);
+       goTo( MainActivity.class,true);
     }
 
 }

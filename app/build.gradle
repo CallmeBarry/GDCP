@@ -39,4 +39,10 @@ dependencies {
     compile 'org.jsoup:jsoup:1.10.2'
 
     compile 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号;
+
+    compile 'org.greenrobot:eventbus:3.0.0'
+
+    compile 'com.android.support:design:25.0.1'
+
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_nav1"
+            android:icon="@mipmap/list"
+            android:title="Snackbar"/>
+        <item
+            android:id="@+id/nav_nav2"
+            android:icon="@mipmap/list"
+            android:title="Snackbar"/>
+        <item
+            android:id="@+id/nav_nav3"
+            android:icon="@mipmap/list"
+            android:title="Snackbar"/>
+
+        <item
+            android:id="@+id/nav_nav4"
+            android:icon="@mipmap/list"
+            android:title="Snackbar"/>
+        <item
+            android:id="@+id/nav_item5"
+            android:icon="@mipmap/list"
+            android:title="修改密码"/>
+
+
+    </group>
+</menu>

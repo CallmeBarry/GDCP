@@ -30,9 +30,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public abstract int getLayoutResId();
 
-    void goTo(Class clazz) {
+    void goTo(Class clazz,boolean finish) {
         Intent intent = new Intent(this, clazz);
         startActivity(intent);
+        if(finish)
         finish();
     }
 

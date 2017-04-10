@@ -7,6 +7,7 @@ import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.cookie.store.MemoryCookieStore;
 import com.lzy.okgo.cookie.store.PersistentCookieStore;
+import com.qqdemo.administrator.gdcp.model.User;
 import com.tencent.bugly.crashreport.CrashReport;
 
 /**
@@ -15,7 +16,6 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 public class gdcpApplication extends Application {
     String TAG = "1111111111111";
-//    public static OkHttpClient mOkHttpClient;
 
     @Override
     public void onCreate() {
@@ -23,7 +23,7 @@ public class gdcpApplication extends Application {
 
         //腾讯的bugly初始化
         CrashReport.initCrashReport(getApplicationContext(), "70db45d6c7", true);
-
+        User.init();
         OkGo.init(this);
 
         //以下设置的所有参数是全局参数,同样的参数可以在请求的时候再设置一遍,那么对于该请求来讲,请求中的参数会覆盖全局参数

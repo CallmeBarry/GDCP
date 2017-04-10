@@ -12,10 +12,12 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.BitmapCallback;
 import com.lzy.okgo.callback.StringCallback;
 import com.qqdemo.administrator.gdcp.R;
+import com.qqdemo.administrator.gdcp.model.User;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -74,13 +76,14 @@ public class LoginActivity extends BaseActivity {
                 initCodeImg();
                 break;
             case R.id.btn_login:
+                hidKeyboard();
                 login();
                 break;
         }
     }
 
     private void login() {
-
+        showProgressDialog("登陆中···");
         OkGo.post("http://jw2012.gdcp.cn")
                 .params("__VIEWSTATE", "dDw3OTkxMjIwNTU7Oz72G0jnx2CVi9cEqCETKg2lgGSYBw==")
                 .params("TextBox1", "1513157221")// mEdId.getText().toString().trim()
@@ -93,11 +96,25 @@ public class LoginActivity extends BaseActivity {
                     public void onSuccess(String s, Call call, Response response) {
 
                         Log.i(TAG, "onResponse: " + s.toString());
+                        Log.i(TAG, "onResponse: " + response.request().url());
 
                         Document doc = Jsoup.parse(s);
                         Element xhxm = doc.getElementById("xhxm");
-                        Toast.makeText(LoginActivity.this,xhxm.text().toString(), Toast.LENGTH_SHORT).show();
-
+                        if(xhxm!=null){
+                            Elements elements = doc.select(".sub > li>a");
+                            User.url=response.request().url().toString();
+                            for(Element element:elements){
+                                User.nav.put(element.text(),"http://jw2012.gdcp.cn/"+element.attr("href"));
+                            }
+                            User.username=xhxm.text().toString();
+                            hideProgressDialog();
+                            goTo(MainActivity.class,true);
+                        }else{
+                            initCodeImg();
+                            mEdCode.setText("");
+                            hideProgressDialog();
+                            Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
