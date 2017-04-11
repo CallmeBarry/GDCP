@@ -3,22 +3,22 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_nav1"
+            android:id="@+id/nav_item1"
             android:icon="@mipmap/list"
-            android:title="Snackbar"/>
+            android:title="成绩查询"/>
         <item
-            android:id="@+id/nav_nav2"
+            android:id="@+id/nav_item2"
             android:icon="@mipmap/list"
-            android:title="Snackbar"/>
+            android:title="课表查询"/>
         <item
-            android:id="@+id/nav_nav3"
+            android:id="@+id/nav_item3"
             android:icon="@mipmap/list"
-            android:title="Snackbar"/>
+            android:title="图书查询"/>
 
         <item
-            android:id="@+id/nav_nav4"
+            android:id="@+id/nav_item4"
             android:icon="@mipmap/list"
-            android:title="Snackbar"/>
+            android:title="饭卡查询"/>
         <item
             android:id="@+id/nav_item5"
             android:icon="@mipmap/list"

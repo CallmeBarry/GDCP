@@ -53,16 +53,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         switch (id) {
-            case R.id.nav_nav1:
+            case R.id.nav_item1:
+                goTo(PerformanceActivity.class,false);
+                break;
+            case R.id.nav_item2:
 
                 break;
-            case R.id.nav_nav2:
+            case R.id.nav_item3:
 
                 break;
-            case R.id.nav_nav3:
-
-                break;
-            case R.id.nav_nav4:
+            case R.id.nav_item4:
 
                 break;
              case R.id.nav_item5:
