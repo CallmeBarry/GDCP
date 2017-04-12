@@ -49,15 +49,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Toast.makeText(this, "xz", Toast.LENGTH_SHORT).show();
-        Intent intent=null;
+        Intent intent = null;
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_item1:
-                goTo(PerformanceActivity.class,false);
+                goTo(PerformanceActivity.class, false);
                 break;
             case R.id.nav_item2:
-
+                goTo(ScheduleActivity.class, false);
                 break;
             case R.id.nav_item3:
 
@@ -65,8 +65,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.nav_item4:
 
                 break;
-             case R.id.nav_item5:
-                 goTo(ChangePwdActivity.class,false);
+            case R.id.nav_item5:
+                goTo(ChangePwdActivity.class, false);
 
                 break;
 

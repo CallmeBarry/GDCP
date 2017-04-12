@@ -16,4 +16,12 @@ public interface PerformancePresenter {
     void requestBy(String year, int term);
 
     List<HashMap<String, Object>> getScoreList();
+
+    String getPeople();
+
+    String getGPA();
+
+    String getXF();
+
+
 }

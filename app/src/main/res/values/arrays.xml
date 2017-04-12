@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="titles">
+        <item>课程表</item>
+        <item>实训课</item>
+        <item>未安排</item>
+    </string-array>
+
+</resources>

@@ -30,6 +30,8 @@
         <activity android:name=".ui.activity.MainActivity"/>
         <activity android:name=".ui.activity.PerformanceActivity">
         </activity>
+        <activity android:name=".ui.activity.ScheduleActivity">
+        </activity>
     </application>
 
 </manifest>

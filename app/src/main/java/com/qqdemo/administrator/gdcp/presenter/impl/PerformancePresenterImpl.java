@@ -36,6 +36,9 @@ public class PerformancePresenterImpl implements PerformancePresenter {
     private String mUrl;
     private String mVIEWSTATE;
     private List<HashMap<String, Object>> mScoreList;
+    private String mPeople;
+    private String mGPA;
+    private String mXf;
 
     public PerformancePresenterImpl(PerformanceView view) {
         mPerformanceView = view;
@@ -67,10 +70,9 @@ public class PerformancePresenterImpl implements PerformancePresenter {
                         for (Element element : select) {
                             mListYear.add(element.text());
                         }
-//                        for (int i = 0; i < 9; i++) {
-//                            mListYear.remove(i);
-//                        }
-                        mListYear.remove(0);
+                        for (int i = 0; i < 9; i++) {
+                            mListYear.remove(i);
+                        }
                         int thisyear = Calendar.getInstance().get(Calendar.YEAR);
                         mListYear.add(0, thisyear - 1 + "-" + thisyear);
                         mPerformanceView.setAdapter();
@@ -120,11 +122,19 @@ public class PerformancePresenterImpl implements PerformancePresenter {
                             iterm.put("iscore",tds.get(8).text());
                             mScoreList.add(iterm);
                         }
+                        String zyzrs = doc.getElementById("zyzrs").text().toString();
+                        mPeople = zyzrs.substring(4, zyzrs.indexOf('人'));
+                        String pjxfjd = doc.getElementById("pjxfjd").text().toString();
+                        mGPA = pjxfjd.substring(pjxfjd.indexOf('：')+1);
+                        String xfjdzh = doc.getElementById("xfjdzh").text().toString();
+                        mXf = xfjdzh.substring(xfjdzh.indexOf('：')+1);
+
                         Log.i(TAG, "onAfter: "+mScoreList);
                         ThreadUtils.runOnMainThread(new Runnable() {
                             @Override
                             public void run() {
                                 mPerformanceView.onLoadScore();
+                                mPerformanceView.showTitle();
                             }
                         });
 
@@ -138,4 +148,14 @@ public class PerformancePresenterImpl implements PerformancePresenter {
     public List<HashMap<String, Object>> getScoreList() {
         return mScoreList;
     }
+    public String getPeople(){
+        return mPeople;
+    }
+    public String getGPA(){
+        return mGPA;
+    }
+    public String getXF(){
+        return mXf;
+    }
+
 }

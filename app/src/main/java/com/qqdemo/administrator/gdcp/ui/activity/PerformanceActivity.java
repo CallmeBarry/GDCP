@@ -1,5 +1,6 @@
 package com.qqdemo.administrator.gdcp.ui.activity;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qqdemo.administrator.gdcp.R;
@@ -38,6 +40,14 @@ public class PerformanceActivity extends BaseActivity implements PerformanceView
     LinearLayout mActivityPerformance;
 
     PerformancePresenter mPerformancePresenter;
+    @BindView(R.id.tv_gpa)
+    TextView mTvGpa;
+    @BindView(R.id.tv_people)
+    TextView mTvPeople;
+    @BindView(R.id.tv_xf)
+    TextView mTvXf;
+    @BindView(R.id.cv_title)
+    CardView mCvTitle;
     private List<String> mListYear;
     private String mYear;
     private int mTerm;
@@ -64,15 +74,6 @@ public class PerformanceActivity extends BaseActivity implements PerformanceView
 
     }
 
-    @Override
-    public void onLoadDataSuccess() {
-
-    }
-
-    @Override
-    public void onLoadDataFailed() {
-
-    }
 
     @Override
     public void onInitSuccess() {
@@ -123,16 +124,24 @@ public class PerformanceActivity extends BaseActivity implements PerformanceView
 
     @Override
     public void onLoadScore() {
-//        mPerformancePresenter.getScoreList();
-//        mRvScore.setLayoutManager(new LinearLayoutManager(getContext()));
-//        mRvScore.setAdapter(mScoreListAdapter);
-           mScoreListAdapter.notifyDataSetChanged();
+        mScoreListAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void showTitle() {
+        mCvTitle.setVisibility(View.VISIBLE);
+        mTvGpa.setText(mPerformancePresenter.getGPA());
+        mTvPeople.setText(mPerformancePresenter.getPeople());
+        mTvXf.setText(mPerformancePresenter.getXF());
     }
 
     private void initRecyclerView() {
         mScoreListAdapter = new ScoreListAdapter(mPerformancePresenter.getScoreList());
-//        mRvScore.setHasFixedSize(true);
+        mRvScore.setHasFixedSize(true);
         mRvScore.setLayoutManager(new LinearLayoutManager(getContext()));
         mRvScore.setAdapter(mScoreListAdapter);
     }
+
+
 }
