@@ -5,14 +5,15 @@ package com.qqdemo.administrator.gdcp.utils;
  */
 
 public class StringUtils {
-    public static final String REGEX_USER_NAME = "^[a-zA-Z]\\w{2,19}$";
-    public static final String REGEX_PASSWORD = "^[0-9]{3,20}$";
 
     public static boolean isValidUserName(String name) {
-        return name.matches(REGEX_USER_NAME);
+        return name.length()>0;
     }
 
     public static boolean isValidPassword(String password){
-        return password.matches(REGEX_PASSWORD) ;
+        return password.length()>6;
+    }
+    public static boolean isValidCode(String code) {
+        return code.length()==4;
     }
 }

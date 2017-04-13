@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kelin.scrollablepanel.library.PanelAdapter;
 import com.qqdemo.administrator.gdcp.R;
@@ -39,9 +40,33 @@ public  class ScheduleAdapter extends PanelAdapter {
 
     @Override
     public synchronized void onBindViewHolder(RecyclerView.ViewHolder holder, int row, int column) {
-        String title = data.get(row).get(column);
+        final String title = data.get(row).get(column);
         TitleViewHolder titleViewHolder = (TitleViewHolder) holder;
-        titleViewHolder.titleTextView.setText(title);
+
+        String[] str = title.split(" ");
+        if(str.length>2){
+            String zi;
+            if (str[0].length()>12){
+                zi=str[0].substring(0,12)+"...";
+                titleViewHolder.titleTextView.setText(zi);
+            }else{
+                titleViewHolder.titleTextView.setText(str[0]);
+            }
+            if(row!=0 && column!=0){
+                final StringBuffer buffer=new StringBuffer();
+                for(String s:str){
+                    buffer.append(s+"\t\n");
+                }
+                titleViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(v.getContext(),buffer , Toast.LENGTH_SHORT).show();
+                    }
+                });}
+        }else{
+            titleViewHolder.titleTextView.setText(title);
+        }
+
     }
 
     @Override

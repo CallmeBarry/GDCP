@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
+
+
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
@@ -11,11 +13,26 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+
+//     signingConfigs {
+//         release{
+//             keyAlias 'MyKey'
+//             keyPassword '123456'
+//             storeFile file('E:\\android-studio-ide-145.3276617-windows\\MyKey.jks')
+//             storePassword '123456'
+//         }
+//    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+//        debug{
+//            signingConfig signingConfigs.release
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
     }
 }
 
@@ -43,12 +60,10 @@ dependencies {
     compile 'com.android.support:design:25.0.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.android.support:cardview-v7:25.0.1'
-
-
     //课程表的样式https://github.com/Kelin-Hong/ScrollablePanel
     compile 'com.kelin.scrollablepanel:library:1.2.0'
-
     //table的样式
     compile 'com.github.devlight.navigationtabstrip:navigationtabstrip:1.0.4'
-
+    //switchbutton:记住密码
+    compile 'com.kyleduo.switchbutton:library:1.4.5'
 }

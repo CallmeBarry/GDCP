@@ -1,18 +1,25 @@
 package com.qqdemo.administrator.gdcp.ui.activity;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kyleduo.switchbutton.SwitchButton;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.BitmapCallback;
 import com.lzy.okgo.callback.StringCallback;
 import com.qqdemo.administrator.gdcp.R;
 import com.qqdemo.administrator.gdcp.model.User;
+import com.qqdemo.administrator.gdcp.utils.StringUtils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -43,6 +50,10 @@ public class LoginActivity extends BaseActivity {
     Button mBtnLogin;
 
     String codeurl = "http://jw2012.gdcp.cn/CheckCode.aspx";
+    @BindView(R.id.switchButton)
+    SwitchButton mSwitchButton;
+    private SharedPreferences mSharedPreferences;
+    private boolean mFlag=true;
 
     @Override
     public int getLayoutResId() {
@@ -53,8 +64,36 @@ public class LoginActivity extends BaseActivity {
     protected void init() {
         super.init();
 
-        initCodeImg();
+        mSharedPreferences = getSharedPreferences("login",
+                Activity.MODE_PRIVATE);
 
+        boolean remember = mSharedPreferences.getBoolean("remember", false);
+        if (remember) {
+            String id = mSharedPreferences.getString("id", "");
+            String pwd = mSharedPreferences.getString("pwd", "");
+            mEdId.setText(id);
+            mEdPwd.setText(pwd);
+        }
+
+
+
+        initCodeImg();
+        mEdCode.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    login();
+                    return true;
+                }
+                return false;
+            }
+        });
+        mSwitchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mFlag = isChecked;
+            }
+        });
 
     }
 
@@ -64,9 +103,10 @@ public class LoginActivity extends BaseActivity {
                 .execute(new BitmapCallback() {
                     @Override
                     public void onSuccess(final Bitmap bitmap, Call call, Response response) {
-                                mIvCode.setImageBitmap(bitmap);
+                        mIvCode.setImageBitmap(bitmap);
                     }
                 });
+
     }
 
     @OnClick({R.id.btn_changecode, R.id.btn_login})
@@ -83,40 +123,78 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void login() {
+      final String id = mEdId.getText().toString().trim();
+
+        final String pwd = mEdPwd.getText().toString().trim();
+        String code = mEdCode.getText().toString().trim();
+        if (!StringUtils.isValidUserName(id)) {
+            mEdId.setError("请输入正确的用户名");
+            return;
+        }
+        if (!StringUtils.isValidPassword(pwd)) {
+            mEdPwd.setError("请输入至少6位数密码");
+            return;
+        }
+        if (!StringUtils.isValidCode(code)) {
+            mEdCode.setError("请输入验证码");
+            return;
+        }
+
         showProgressDialog("登陆中···");
         OkGo.post("http://jw2012.gdcp.cn")
                 .params("__VIEWSTATE", "dDw3OTkxMjIwNTU7Oz72G0jnx2CVi9cEqCETKg2lgGSYBw==")
-                .params("TextBox1", "1513157221")// mEdId.getText().toString().trim()
-                .params("TextBox2", "1111111")//mEdPwd.getText().toString().trim()
-                .params("TextBox3", mEdCode.getText().toString().trim())
+                .params("TextBox1", id)
+                .params("TextBox2", pwd)
+                .params("TextBox3", code)
                 .params("RadioButtonList1", "学生")
                 .params("Button1", "")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
 
-                        Log.i(TAG, "onResponse: " + s.toString());
-                        Log.i(TAG, "onResponse: " + response.request().url());
-
                         Document doc = Jsoup.parse(s);
                         Element xhxm = doc.getElementById("xhxm");
-                        if(xhxm!=null){
+                        if (xhxm != null) {
                             Elements elements = doc.select(".sub > li>a");
-                            User.url=response.request().url().toString();
-                            for(Element element:elements){
-                                User.nav.put(element.text(),"http://jw2012.gdcp.cn/"+element.attr("href"));
+                            User.url = response.request().url().toString();
+                            for (Element element : elements) {
+                                User.nav.put(element.text(), "http://jw2012.gdcp.cn/" + element.attr("href"));
                             }
-                            User.username=xhxm.text().toString();
+                            User.username = xhxm.text().toString();
                             hideProgressDialog();
-                            goTo(MainActivity.class,true);
-                        }else{
+                            rememberPWD(id ,pwd);
+                            goTo(MainActivity.class, true);
+                        } else {
                             initCodeImg();
                             mEdCode.setText("");
                             hideProgressDialog();
-                            Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT).show();
+                            Elements script = doc.select("script");
+                            String str = script.get(1).html().toString();
+                            String result = str.substring(str.indexOf('\'') + 1, str.lastIndexOf('\''));
+                            Toast.makeText(LoginActivity.this, result, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+
+    }
+
+    private void rememberPWD(String id,String pwd) {
+
+        //实例化SharedPreferences.Editor对象
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        if(mFlag){
+            //用putString的方法保存数据
+            editor.putBoolean("remember", true);
+            editor.putString("id",id);
+            editor.putString("pwd", pwd);
+        }else{
+            //用putString的方法保存数据
+            editor.putBoolean("remember", false);
+            editor.putString("id","");
+            editor.putString("pwd", "");
+        }
+        //提交当前数据
+        editor.apply();
 
     }
 

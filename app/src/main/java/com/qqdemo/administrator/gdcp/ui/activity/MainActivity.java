@@ -8,7 +8,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.qqdemo.administrator.gdcp.R;
 
@@ -48,7 +47,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Toast.makeText(this, "xz", Toast.LENGTH_SHORT).show();
         Intent intent = null;
         // Handle navigation view item clicks here.
         int id = item.getItemId();

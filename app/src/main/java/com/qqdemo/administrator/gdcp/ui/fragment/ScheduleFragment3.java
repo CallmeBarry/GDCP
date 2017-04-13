@@ -1,5 +1,7 @@
 package com.qqdemo.administrator.gdcp.ui.fragment;
 
+import android.annotation.SuppressLint;
+
 import com.kelin.scrollablepanel.library.ScrollablePanel;
 import com.qqdemo.administrator.gdcp.R;
 import com.qqdemo.administrator.gdcp.adapter.ScheduleAdapter;
@@ -11,7 +13,7 @@ import butterknife.BindView;
 /**
  * Created by Administrator on 2017/4/12.
  */
-
+@SuppressLint("ValidFragment")
 public class ScheduleFragment3 extends BaseFragment {
     @BindView(R.id.scrollable_panel)
     ScrollablePanel mScrollablePanel;

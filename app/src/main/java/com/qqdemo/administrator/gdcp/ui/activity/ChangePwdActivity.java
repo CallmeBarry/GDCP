@@ -1,12 +1,16 @@
 package com.qqdemo.administrator.gdcp.ui.activity;
 
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qqdemo.administrator.gdcp.R;
 import com.qqdemo.administrator.gdcp.presenter.ChangePwdPresenter;
 import com.qqdemo.administrator.gdcp.presenter.impl.ChangePwdPresenterImpl;
+import com.qqdemo.administrator.gdcp.utils.StringUtils;
 import com.qqdemo.administrator.gdcp.view.ChangePwdView;
 
 import butterknife.BindView;
@@ -37,6 +41,18 @@ public class ChangePwdActivity extends BaseActivity implements ChangePwdView {
     protected void init() {
         super.init();
         mChangePwdPresenter = new ChangePwdPresenterImpl(this);
+        mEdNewpwd2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    onClick();
+                    return true;
+
+                }
+                return false;
+            }
+        });
+
     }
 
 
@@ -45,6 +61,20 @@ public class ChangePwdActivity extends BaseActivity implements ChangePwdView {
         String oldpwd=mEdPwd.getText().toString();
         String newpwd=mEdNewpwd.getText().toString();
         String newpwd2=mEdNewpwd2.getText().toString();
+
+        if (!StringUtils.isValidPassword(oldpwd)) {
+            mEdPwd.setError("请输入至少6位数密码");
+            return;
+        }
+        if (!StringUtils.isValidPassword(newpwd)) {
+            mEdNewpwd.setError("请输入至少6位数密码");
+            return;
+        }
+        if (!newpwd.equals(newpwd2)) {
+            mEdPwd.setError("两次密码输入不一致");
+            return;
+        }
+
         showProgressDialog("修改中···");
         mChangePwdPresenter.changePwd(oldpwd,newpwd,newpwd2);
     }

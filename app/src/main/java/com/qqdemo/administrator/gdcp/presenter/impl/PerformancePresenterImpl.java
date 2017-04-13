@@ -1,8 +1,5 @@
 package com.qqdemo.administrator.gdcp.presenter.impl;
 
-
-import android.util.Log;
-
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.qqdemo.administrator.gdcp.model.User;
@@ -50,7 +47,6 @@ public class PerformancePresenterImpl implements PerformancePresenter {
     public synchronized void init() {
 
         mUrl = User.nav.get("学习成绩查询");
-        Log.i(TAG, "init: " + mUrl);
         OkGo.get(mUrl)
                 .headers("Referer", User.url)
                 .execute(new StringCallback() {
@@ -90,10 +86,6 @@ public class PerformancePresenterImpl implements PerformancePresenter {
     @Override
     public synchronized void requestBy(String year, int term) {
         mScoreList.clear();
-        Log.i(TAG, "requestBy: " + mVIEWSTATE);
-        Log.i(TAG, "requestBy: " + year);
-        Log.i(TAG, "requestBy: " + term);
-        Log.i(TAG, "requestBy: " + User.url);
         OkGo.post(mUrl)
                 .headers("Referer", User.url)
                 .params("__VIEWSTATE", mVIEWSTATE)
@@ -103,14 +95,12 @@ public class PerformancePresenterImpl implements PerformancePresenter {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        // Log.i(TAG, "onSuccess: "+s);
 
                     }
 
                     @Override
                     public void onAfter(String s, Exception e) {
                         super.onAfter(s, e);
-                        Log.i(TAG, "onSuccess: " + s);
                         Document doc = Jsoup.parse(s);
                         Elements tables = doc.select("table");
                         Element table1 = tables.get(0);
@@ -129,7 +119,6 @@ public class PerformancePresenterImpl implements PerformancePresenter {
                         String xfjdzh = doc.getElementById("xfjdzh").text().toString();
                         mXf = xfjdzh.substring(xfjdzh.indexOf('：')+1);
 
-                        Log.i(TAG, "onAfter: "+mScoreList);
                         ThreadUtils.runOnMainThread(new Runnable() {
                             @Override
                             public void run() {

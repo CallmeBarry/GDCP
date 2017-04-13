@@ -61,6 +61,7 @@ public class PerformanceActivity extends BaseActivity implements PerformanceView
     @Override
     protected void init() {
         super.init();
+
         mPerformancePresenter = new PerformancePresenterImpl(this);
         initRecyclerView();
         mPerformancePresenter.init();
@@ -70,6 +71,7 @@ public class PerformanceActivity extends BaseActivity implements PerformanceView
 
     @OnClick(R.id.btn_search)
     public void onClick(View view) {
+        showProgressDialog("查询中···");
         mPerformancePresenter.requestBy(mYear, mTerm);
 
     }
@@ -124,6 +126,7 @@ public class PerformanceActivity extends BaseActivity implements PerformanceView
 
     @Override
     public void onLoadScore() {
+        hideProgressDialog();
         mScoreListAdapter.notifyDataSetChanged();
 
     }

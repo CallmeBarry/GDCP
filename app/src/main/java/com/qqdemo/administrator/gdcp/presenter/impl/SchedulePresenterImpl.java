@@ -22,7 +22,6 @@ import okhttp3.Response;
 /**
  * Created by Administrator on 2017/4/12.
  */
-
 public class SchedulePresenterImpl implements SchedulePresenter {
 
     private static final String TAG = "SchedulePresenterImpl";

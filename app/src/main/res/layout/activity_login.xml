@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
@@ -12,7 +13,7 @@
         android:layout_marginTop="50dp"
         android:hint="用户名"
         android:imeOptions="actionNext"
-        android:inputType="text"
+        android:inputType="number"
         />
 
     <EditText
@@ -33,23 +34,25 @@
         >
 
         <ImageView
-            android:layout_marginLeft="10dp"
             android:id="@+id/iv_code"
             android:layout_width="80dp"
             android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
             android:src="@color/colorAccent"
             />
+
         <Button
             android:id="@+id/btn_changecode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="换一张"
-            android:textColor="@android:color/white"
-            android:textSize="22sp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/btn_login_selector"
+            android:text="换一张"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
             />
+
         <EditText
             android:id="@+id/ed_code"
             android:layout_width="match_parent"
@@ -65,12 +68,24 @@
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_login_selector"
         android:text="登录"
         android:textColor="@android:color/white"
         android:textSize="22sp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/btn_login_selector"
-        android:layout_margin="10dp"
         />
+
+    <com.kyleduo.switchbutton.SwitchButton
+        android:id="@+id/switchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        app:kswTextOff="不记住密码"
+        app:kswTextOn="记住密码"
+        app:kswThumbHeight="30dp"
+        app:kswThumbWidth="30dp"
+        app:kswThumbRadius="5dp"
+        app:kswTintColor="@color/colorPrimary"/>
 
 </LinearLayout>
