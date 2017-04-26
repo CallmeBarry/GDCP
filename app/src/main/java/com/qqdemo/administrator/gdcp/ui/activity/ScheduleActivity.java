@@ -3,6 +3,8 @@ package com.qqdemo.administrator.gdcp.ui.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
 import com.qqdemo.administrator.gdcp.R;
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class ScheduleActivity extends BaseActivity implements ScheduleView {
 
@@ -26,6 +29,10 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
     ViewPager mFragmentContainer;
     @BindView(R.id.NavigationTabStrip)
     NavigationTabStrip mNavigationTabStrip;
+    @BindView(R.id.bar_title)
+    TextView mBarTitle;
+    @BindView(R.id.back)
+    ImageView mBack;
     private SchedulePresenter mSchedulePresenter;
 
     @Override
@@ -36,7 +43,7 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
     @Override
     protected void init() {
         super.init();
-
+        mBarTitle.setText("课表查询");
         showProgressDialog("查询中···");
         mSchedulePresenter = new SchedulePresenterImpl(this);
 
@@ -53,10 +60,16 @@ public class ScheduleActivity extends BaseActivity implements ScheduleView {
 //        mListViews.add(FragmentFactory.getInstance().getScheduleFragment1(mSchedulePresenter.getSchedule1()));
 //        mListViews.add(FragmentFactory.getInstance().getScheduleFragment2(mSchedulePresenter.getSchedule2()));
 //        mListViews.add(FragmentFactory.getInstance().getScheduleFragment3(mSchedulePresenter.getSchedule3()));
-        SchedulePageAdapter schedulePageAdapter = new SchedulePageAdapter(getSupportFragmentManager(),mListViews);
+        SchedulePageAdapter schedulePageAdapter = new SchedulePageAdapter(getSupportFragmentManager(), mListViews);
         mFragmentContainer.setAdapter(schedulePageAdapter);
-        mNavigationTabStrip.setTabIndex(0,true);
-        mNavigationTabStrip.setViewPager(mFragmentContainer,0);
+        mNavigationTabStrip.setTabIndex(0, true);
+        mNavigationTabStrip.setViewPager(mFragmentContainer, 0);
         hideProgressDialog();
+    }
+
+
+    @OnClick(R.id.back)
+    public void onClick() {
+        this.finish();
     }
 }

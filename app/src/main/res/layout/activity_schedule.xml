@@ -4,7 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
-
+    <include layout="@layout/title_bar"></include>
     <com.gigamole.navigationtabstrip.NavigationTabStrip
         android:background="#ff252e39"
         android:id="@+id/NavigationTabStrip"

@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.jakewharton.butterknife'
 android {
 
 
@@ -43,8 +43,8 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.0.1'
     testCompile 'junit:junit:4.12'
-    compile 'com.jakewharton:butterknife:8.4.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     //    compile 'com.zhy:okhttputils:2.6.2'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.lzy.net:okgo:2.1.4'
@@ -66,4 +66,15 @@ dependencies {
     compile 'com.github.devlight.navigationtabstrip:navigationtabstrip:1.0.4'
     //switchbutton:记住密码
     compile 'com.kyleduo.switchbutton:library:1.4.5'
+
+    //左右滑动菜单
+    compile 'com.specyci:residemenu:1.6+'
+
+    compile 'org.greenrobot:eventbus:3.0.0'
+
+   //主界面的导航栏
+   compile 'com.eccyan:spinning:0.0.2@aar'
+
+
+
 }

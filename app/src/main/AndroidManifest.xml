@@ -28,10 +28,10 @@
         <activity android:name=".ui.activity.LoginActivity"/>
         <activity android:name=".ui.activity.ChangePwdActivity"/>
         <activity android:name=".ui.activity.MainActivity"/>
-        <activity android:name=".ui.activity.PerformanceActivity">
-        </activity>
-        <activity android:name=".ui.activity.ScheduleActivity">
-        </activity>
+        <activity android:name=".ui.activity.PerformanceActivity"/>
+        <activity android:name=".ui.activity.ComputerActivity"/>
+        <activity android:name=".ui.activity.ScheduleActivity"/>
+
     </application>
 
 </manifest>

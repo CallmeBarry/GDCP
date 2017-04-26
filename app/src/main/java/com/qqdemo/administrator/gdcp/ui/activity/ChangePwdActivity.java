@@ -1,9 +1,11 @@
 package com.qqdemo.administrator.gdcp.ui.activity;
 
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,10 @@ public class ChangePwdActivity extends BaseActivity implements ChangePwdView {
     EditText mEdNewpwd2;
     @BindView(R.id.btn_changepwd)
     Button mBtnChangepwd;
+    @BindView(R.id.bar_title)
+    TextView mBarTitle;
+    @BindView(R.id.back)
+    ImageView mBack;
     private ChangePwdPresenter mChangePwdPresenter;
 
 
@@ -40,12 +46,13 @@ public class ChangePwdActivity extends BaseActivity implements ChangePwdView {
     @Override
     protected void init() {
         super.init();
+        mBarTitle.setText("修改密码");
         mChangePwdPresenter = new ChangePwdPresenterImpl(this);
         mEdNewpwd2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    onClick();
+                    btn_changepwdonClick();
                     return true;
 
                 }
@@ -56,11 +63,11 @@ public class ChangePwdActivity extends BaseActivity implements ChangePwdView {
     }
 
 
-    @OnClick(R.id.btn_changepwd)
-    public void onClick() {
-        String oldpwd=mEdPwd.getText().toString();
-        String newpwd=mEdNewpwd.getText().toString();
-        String newpwd2=mEdNewpwd2.getText().toString();
+
+    public void btn_changepwdonClick() {
+        String oldpwd = mEdPwd.getText().toString();
+        String newpwd = mEdNewpwd.getText().toString();
+        String newpwd2 = mEdNewpwd2.getText().toString();
 
         if (!StringUtils.isValidPassword(oldpwd)) {
             mEdPwd.setError("请输入至少6位数密码");
@@ -76,7 +83,7 @@ public class ChangePwdActivity extends BaseActivity implements ChangePwdView {
         }
 
         showProgressDialog("修改中···");
-        mChangePwdPresenter.changePwd(oldpwd,newpwd,newpwd2);
+        mChangePwdPresenter.changePwd(oldpwd, newpwd, newpwd2);
     }
 
 
@@ -91,10 +98,23 @@ public class ChangePwdActivity extends BaseActivity implements ChangePwdView {
         Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
         clearEd();
     }
-    private void clearEd(){
+
+    private void clearEd() {
         hideProgressDialog();
         mEdPwd.setText("");
         mEdNewpwd.setText("");
         mEdNewpwd2.setText("");
+    }
+
+    @OnClick({R.id.back, R.id.btn_changepwd})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.back:
+                this.finish();
+                break;
+            case R.id.btn_changepwd:
+                btn_changepwdonClick();
+                break;
+        }
     }
 }

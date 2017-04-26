@@ -1,5 +1,6 @@
 package com.qqdemo.administrator.gdcp.ui.activity;
 
+
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -35,7 +36,10 @@ import okhttp3.Response;
  * Created by Administrator on 2017/4/9.
  */
 public class LoginActivity extends BaseActivity {
+
     private static final String TAG = "LoginActivity";
+
+    String codeurl = "http://jw2012.gdcp.cn/CheckCode.aspx";
     @BindView(R.id.ed_id)
     EditText mEdId;
     @BindView(R.id.ed_pwd)
@@ -48,12 +52,11 @@ public class LoginActivity extends BaseActivity {
     EditText mEdCode;
     @BindView(R.id.btn_login)
     Button mBtnLogin;
-
-    String codeurl = "http://jw2012.gdcp.cn/CheckCode.aspx";
     @BindView(R.id.switchButton)
     SwitchButton mSwitchButton;
+
     private SharedPreferences mSharedPreferences;
-    private boolean mFlag=true;
+    private boolean mFlag = true;
 
     @Override
     public int getLayoutResId() {
@@ -64,8 +67,7 @@ public class LoginActivity extends BaseActivity {
     protected void init() {
         super.init();
 
-        mSharedPreferences = getSharedPreferences("login",
-                Activity.MODE_PRIVATE);
+        mSharedPreferences = getSharedPreferences("login", Activity.MODE_PRIVATE);
 
         boolean remember = mSharedPreferences.getBoolean("remember", false);
         if (remember) {
@@ -74,7 +76,6 @@ public class LoginActivity extends BaseActivity {
             mEdId.setText(id);
             mEdPwd.setText(pwd);
         }
-
 
 
         initCodeImg();
@@ -123,7 +124,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void login() {
-      final String id = mEdId.getText().toString().trim();
+        final String id = mEdId.getText().toString().trim();
 
         final String pwd = mEdPwd.getText().toString().trim();
         String code = mEdCode.getText().toString().trim();
@@ -162,7 +163,7 @@ public class LoginActivity extends BaseActivity {
                             }
                             User.username = xhxm.text().toString();
                             hideProgressDialog();
-                            rememberPWD(id ,pwd);
+                            rememberPWD(id, pwd);
                             goTo(MainActivity.class, true);
                         } else {
                             initCodeImg();
@@ -178,25 +179,24 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-    private void rememberPWD(String id,String pwd) {
+    private void rememberPWD(String id, String pwd) {
 
         //实例化SharedPreferences.Editor对象
         SharedPreferences.Editor editor = mSharedPreferences.edit();
-        if(mFlag){
+        if (mFlag) {
             //用putString的方法保存数据
             editor.putBoolean("remember", true);
-            editor.putString("id",id);
+            editor.putString("id", id);
             editor.putString("pwd", pwd);
-        }else{
+        } else {
             //用putString的方法保存数据
             editor.putBoolean("remember", false);
-            editor.putString("id","");
+            editor.putString("id", "");
             editor.putString("pwd", "");
         }
         //提交当前数据
         editor.apply();
 
     }
-
 
 }

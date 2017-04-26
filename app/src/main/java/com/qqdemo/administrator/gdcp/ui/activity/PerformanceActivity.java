@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -48,6 +49,11 @@ public class PerformanceActivity extends BaseActivity implements PerformanceView
     TextView mTvXf;
     @BindView(R.id.cv_title)
     CardView mCvTitle;
+    @BindView(R.id.bar_title)
+    TextView mBarTitle;
+    @BindView(R.id.back)
+    ImageView mBack;
+
     private List<String> mListYear;
     private String mYear;
     private int mTerm;
@@ -61,18 +67,11 @@ public class PerformanceActivity extends BaseActivity implements PerformanceView
     @Override
     protected void init() {
         super.init();
-
+        mBarTitle.setText("成绩查询");
         mPerformancePresenter = new PerformancePresenterImpl(this);
         initRecyclerView();
         mPerformancePresenter.init();
 
-
-    }
-
-    @OnClick(R.id.btn_search)
-    public void onClick(View view) {
-        showProgressDialog("查询中···");
-        mPerformancePresenter.requestBy(mYear, mTerm);
 
     }
 
@@ -147,4 +146,17 @@ public class PerformanceActivity extends BaseActivity implements PerformanceView
     }
 
 
+
+    @OnClick({R.id.back, R.id.btn_search})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.back:
+                this.finish();
+                break;
+            case R.id.btn_search:
+                showProgressDialog("查询中···");
+                mPerformancePresenter.requestBy(mYear, mTerm);
+                break;
+        }
+    }
 }

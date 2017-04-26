@@ -63,14 +63,10 @@ public class PerformancePresenterImpl implements PerformancePresenter {
                         if (mListYear == null) {
                             mListYear = new ArrayList<String>();
                         }
-                        for (Element element : select) {
-                            mListYear.add(element.text());
-                        }
-                        for (int i = 0; i < 9; i++) {
-                            mListYear.remove(i);
-                        }
                         int thisyear = Calendar.getInstance().get(Calendar.YEAR);
-                        mListYear.add(0, thisyear - 1 + "-" + thisyear);
+                        mListYear.add(thisyear - 1 + "-" + thisyear);
+                        mListYear.add(thisyear - 2 + "-" + (thisyear - 1));
+                        mListYear.add(thisyear - 3 + "-" + (thisyear-2));
                         mPerformanceView.setAdapter();
                         mPerformanceView.onInitSuccess();
                     }
