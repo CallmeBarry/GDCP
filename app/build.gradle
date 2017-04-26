@@ -75,6 +75,7 @@ dependencies {
    //主界面的导航栏
    compile 'com.eccyan:spinning:0.0.2@aar'
 
-
+    //轮播图轮子
+    compile 'com.youth.banner:banner:1.1.5'
 
 }

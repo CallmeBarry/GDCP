@@ -53,7 +53,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     SpinningTabStrip mTabs;
     @BindView(R.id.pager)
     NestedScrollViewPager mPager;
-    private String titles[] = {"计算机", "土木", "汽车", "运输", "轨道", "海事", "商贸", "电子通信"};
+    private String titles[] = {"首页", "计算机工程学院","土木工程学院","汽车与工程机械学院","运输管理学院",
+            "轨道交通学院","海事学院","商贸学院","电子与通信工程学院","机电工程学院"};
 
 
     boolean isExit = false;
@@ -70,8 +71,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String[] TITLES = {"Categories", "Home", "Top Paid", "Top Free", "Top Grossing", "Top New Paid",
-                "Top New Free", "Trending"};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -79,12 +78,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return TITLES[position];
+            return titles[position];
         }
 
         @Override
         public int getCount() {
-            return TITLES.length;
+            return titles.length;
         }
 
         @Override
