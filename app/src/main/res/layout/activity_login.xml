@@ -84,7 +84,7 @@
         app:kswTextOn="记住密码"
         app:kswThumbHeight="30dp"
         app:kswThumbWidth="30dp"
-        app:kswThumbRadius="5dp"
+        app:kswThumbRadius="0dp"
         app:kswTintColor="@color/colorPrimary"/>
 
 </LinearLayout>

@@ -4,6 +4,7 @@ package com.qqdemo.administrator.gdcp.ui.activity;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -68,7 +69,6 @@ public class LoginActivity extends BaseActivity {
         super.init();
 
         mSharedPreferences = getSharedPreferences("login", Activity.MODE_PRIVATE);
-
         boolean remember = mSharedPreferences.getBoolean("remember", false);
         if (remember) {
             String id = mSharedPreferences.getString("id", "");
@@ -104,6 +104,7 @@ public class LoginActivity extends BaseActivity {
                 .execute(new BitmapCallback() {
                     @Override
                     public void onSuccess(final Bitmap bitmap, Call call, Response response) {
+                        Log.i(TAG, "onSuccess: ");
                         mIvCode.setImageBitmap(bitmap);
                     }
                 });
@@ -161,6 +162,7 @@ public class LoginActivity extends BaseActivity {
                             for (Element element : elements) {
                                 User.nav.put(element.text(), "http://jw2012.gdcp.cn/" + element.attr("href"));
                             }
+                            User.uid=Integer.parseInt(id);
                             User.username = xhxm.text().toString();
                             hideProgressDialog();
                             rememberPWD(id, pwd);

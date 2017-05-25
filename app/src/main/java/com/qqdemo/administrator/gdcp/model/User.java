@@ -13,6 +13,7 @@ public class User {
         nav=new HashMap<String ,String>();
     }
 
+    public static int uid;
     public static String url;//
     public static String username;//用户名
     public static String college;//学院

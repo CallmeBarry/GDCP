@@ -9,7 +9,7 @@ import com.qqdemo.administrator.gdcp.view.SplashView;
 
 public class SplashActivity extends BaseActivity implements SplashView {
 
-    private static final int DELAY = 500;
+    private static final int DELAY = 1000;
     private Handler mHandler=new Handler();
 
     private SplashPresenter mSplashPresenter;

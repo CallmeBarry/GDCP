@@ -1,6 +1,9 @@
 package com.qqdemo.administrator.gdcp.gdcp;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
@@ -15,7 +18,7 @@ import com.tencent.bugly.crashreport.CrashReport;
  */
 
 public class gdcpApplication extends Application {
-    String TAG = "1111111111111";
+    String TAG = "gdcpApplication";
 
     @Override
     public void onCreate() {
@@ -50,6 +53,21 @@ public class gdcpApplication extends Application {
                 .setCookieStore(new MemoryCookieStore())            //cookie使用内存缓存（app退出后，cookie消失）
                 .setCookieStore(new PersistentCookieStore());        //cookie持久化存储，如果cookie不过期，则一直有效
 
+        SharedPreferences first = getSharedPreferences("First", Activity.MODE_PRIVATE);
+        boolean flag = first.getBoolean("first", true);
+        Log.i(TAG, "onCreate: " + flag);
+        if (flag) {
+            SharedPreferences.Editor tittle = getSharedPreferences("Tittle", Activity.MODE_PRIVATE).edit();
+            tittle.putString("Tittles", "{\"tittles\":[{\"tittle\":\"计算机工程学院\",\"key\":true}," +
+                    "{\"tittle\":\"土木工程学院\",\"key\":true},{\"tittle\":\"汽车与工程机械学院\",\"key\":true}," +
+                    "{\"tittle\":\"运输管理学院\",\"key\":true},{\"tittle\":\"轨道交通学院\",\"key\":true}," +
+                    "{\"tittle\":\"海事学院\",\"key\":true},{\"tittle\":\"商贸学院\",\"key\":true}," +
+                    "{\"tittle\":\"电子与通信工程学院\",\"key\":true},{\"tittle\":\"机电工程学院\",\"key\":true}]}");
+            tittle.commit();
+            SharedPreferences.Editor edit = first.edit();
+            edit.putBoolean("first", false);
+            edit.commit();
+        }
 
     }
 }

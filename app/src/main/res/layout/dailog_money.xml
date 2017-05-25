@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="为了你的安全，请输入一卡通密码"
+        android:textSize="17dp"
+        android:textColor="#fff"
+        android:padding="10dp"
+        android:background="@color/colorPrimary"
+        />
+    <EditText
+        android:layout_margin="10dp"
+        android:inputType="numberPassword"
+        android:id="@+id/ed_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="一卡通密码"/>
+
+</LinearLayout>

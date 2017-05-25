@@ -1,12 +1,21 @@
 package com.qqdemo.administrator.gdcp.ui.fragment;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.qqdemo.administrator.gdcp.R;
+import com.qqdemo.administrator.gdcp.adapter.DateListAdapter;
+import com.qqdemo.administrator.gdcp.presenter.IndexFragmentPresenter;
+import com.qqdemo.administrator.gdcp.presenter.impl.IndexFragmentPresenterImpl;
+import com.qqdemo.administrator.gdcp.view.indexFragmentView;
 import com.youth.banner.Banner;
+
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -14,21 +23,21 @@ import butterknife.BindView;
  * Created by Administrator on 2017/4/26.
  */
 
-public class IndexFragment extends BaseFragment {
+public class IndexFragment extends BaseFragment implements indexFragmentView {
     @BindView(R.id.banner)
     Banner mBanner;
 
-    String[] images= new String[] {
-            "http://218.192.170.132/BS80.jpg",
-            "http://img.zcool.cn/community/0166c756e1427432f875520f7cc838.jpg",
-            "http://img.zcool.cn/community/018fdb56e1428632f875520f7b67cb.jpg",
-            "http://img.zcool.cn/community/01c8dc56e1428e6ac72531cbaa5f2c.jpg",
-            "http://img.zcool.cn/community/01fda356640b706ac725b2c8b99b08.jpg",
-            "http://img.zcool.cn/community/01fd2756e142716ac72531cbf8bbbf.jpg",
-            "http://img.zcool.cn/community/0114a856640b6d32f87545731c076a.jpg"};
+    String[] images = new String[]{
+            "http://a1.gdcp.cn/UploadFile/2390/2017/5/16/201751694146706.jpg",
+            "http://a1.gdcp.cn/UploadFile/2390/2017/5/8/20175892057930.jpg",
+            "http://a1.gdcp.cn/UploadFile/2390/2017/5/16/201751662615944.jpg",
+            "http://jsxy.gdcp.cn/UploadFile/2/2017/4/1/20174182586342.jpg",
+            "http://jsxy.gdcp.cn/UploadFile/2/2017/3/28/201732891684395.jpg",
+            "http://jsxy.gdcp.cn/UploadFile/2/2017/3/27/201732742576882.jpg"
+    };
+    @BindView(R.id.rv_dates)
+    RecyclerView mRvDates;
 
-    //设置图片标题:自动对应
-    String[] titles=new String[]{"十大星级品牌联盟，全场2折起","全场2折起","十大星级品牌联盟","嗨购5折不要停","12趁现在","嗨购5折不要停，12.12趁现在","实打实大顶顶顶顶"};
 
     @Override
     public int getLayoutResId() {
@@ -39,20 +48,24 @@ public class IndexFragment extends BaseFragment {
     protected void init() {
         super.init();
 
-        mBanner.setBannerStyle(Banner.CIRCLE_INDICATOR_TITLE);
 
+        IndexFragmentPresenter indexFragmentPresenter = new IndexFragmentPresenterImpl(this);
+
+
+        indexFragmentPresenter.onloadDate();
+        mBanner.setBannerStyle(Banner.CIRCLE_INDICATOR_TITLE);
         //设置轮播样式（没有标题默认为右边,有标题时默认左边）
         //可选样式:
         //Banner.LEFT    指示器居左
         //Banner.CENTER    指示器居中
         //Banner.RIGHT    指示器居右
-        mBanner.setIndicatorGravity(Banner.CENTER);
+        // mBanner.setIndicatorGravity(Banner.CENTER);
 
         //设置轮播要显示的标题和图片对应（如果不传默认不显示标题）
-        mBanner.setBannerTitle(titles);
+        // mBanner.setBannerTitle(titles);
 
         //设置是否自动轮播（不设置则默认自动）
-        mBanner.isAutoPlay(true)    ;
+        mBanner.isAutoPlay(true);
 
         //设置轮播图片间隔时间（不设置默认为2000）
         mBanner.setDelayTime(5000);
@@ -76,6 +89,19 @@ public class IndexFragment extends BaseFragment {
                 Toast.makeText(getContext(), "你点击了：" + position, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public void onLoadDateFailed() {
+
+    }
+
+    @Override
+    public void onLoadDateSuccess(List<Map<String, Object>> dateslist) {
+        mRvDates.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRvDates.setHasFixedSize(true);
+        mRvDates.setNestedScrollingEnabled(false);
+        mRvDates.setAdapter(new DateListAdapter(dateslist));
     }
 
 

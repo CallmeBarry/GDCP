@@ -66,16 +66,18 @@ dependencies {
     compile 'com.github.devlight.navigationtabstrip:navigationtabstrip:1.0.4'
     //switchbutton:记住密码
     compile 'com.kyleduo.switchbutton:library:1.4.5'
-
     //左右滑动菜单
     compile 'com.specyci:residemenu:1.6+'
-
     compile 'org.greenrobot:eventbus:3.0.0'
-
-   //主界面的导航栏
-   compile 'com.eccyan:spinning:0.0.2@aar'
-
+    //主界面的导航栏
+    compile 'com.eccyan:spinning:0.0.2@aar'
     //轮播图轮子
     compile 'com.youth.banner:banner:1.1.5'
-
+    //主界面的导航栏
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.flyco.roundview:FlycoRoundView_Lib:1.1.2@aar'
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:1.5.0@aar'
+    //滑动recyclerview
+    compile 'com.yanzhenjie:recyclerview-swipe:1.0.4'
+    compile 'com.google.code.gson:gson:2.2.4'
 }

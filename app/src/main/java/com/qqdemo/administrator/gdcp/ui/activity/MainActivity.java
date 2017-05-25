@@ -1,29 +1,40 @@
 package com.qqdemo.administrator.gdcp.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.eccyan.widget.SpinningTabStrip;
+import com.flyco.tablayout.SlidingTabLayout;
 import com.qqdemo.administrator.gdcp.R;
-import com.qqdemo.administrator.gdcp.ui.fragment.IndexFragment;
+import com.qqdemo.administrator.gdcp.adapter.MainPagerAdapter;
+import com.qqdemo.administrator.gdcp.model.MyEvent;
+import com.qqdemo.administrator.gdcp.presenter.impl.SettingPresentImpl;
 import com.qqdemo.administrator.gdcp.widget.NestedScrollViewPager;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -34,7 +45,7 @@ import static com.qqdemo.administrator.gdcp.model.User.username;
  * Created by Administrator on 2017/4/9.
  */
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+    private String TAG = "MainActivity";
     @BindView(R.id.nav_view)
     NavigationView mNavView;
     @BindView(R.id.drawer_layout)
@@ -49,18 +60,21 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     LinearLayout mBtnAccount;
     @BindView(R.id.iv_logo)
     ImageView mIvLogo;
-    @BindView(R.id.tabs)
-    SpinningTabStrip mTabs;
     @BindView(R.id.pager)
     NestedScrollViewPager mPager;
-    private String titles[] = {"首页", "计算机工程学院","土木工程学院","汽车与工程机械学院","运输管理学院",
-            "轨道交通学院","海事学院","商贸学院","电子与通信工程学院","机电工程学院"};
+    @BindView(R.id.tabs)
+    SlidingTabLayout mTabs;
+    @BindView(R.id.more)
+    ImageButton mMore;
 
 
     boolean isExit = false;
     private Handler mHandler;
-    private List<Fragment> mMListViews;
     TextView mTvUsername;
+    private SettingPresentImpl mSettingPresent;
+    private List<Map<String, Object>> mMaps;
+    private List mTitles;
+    private MainPagerAdapter mMyPagerAdapter;
 
 
     @Override
@@ -68,45 +82,26 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return R.layout.activity_main;
     }
 
-
-    public class MyPagerAdapter extends FragmentPagerAdapter {
-
-
-        public MyPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titles[position];
-        }
-
-        @Override
-        public int getCount() {
-            return titles.length;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return new IndexFragment();
-        }
-    }
-
     @Override
     protected void init() {
         super.init();
         Glide.with(this).load(R.mipmap.lolgo1).into(mIvLogo);
+        EventBus.getDefault().register(this);
+        initHandler();
 
-        mHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                isExit = false;
-            }
-        };
+        mSettingPresent = new SettingPresentImpl(getApplicationContext());
 
-        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(myPagerAdapter);
+        mMaps = mSettingPresent.loadTittle();
+        Log.i(TAG, "init: " + mMaps);
+        mTitles = new ArrayList();
+        for (Map<String, Object> map : mMaps) {
+            if ((Boolean) map.get("key"))
+                mTitles.add(map.get("tittle"));
+        }
+        mTitles.add(0, "首页");
+        mMyPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), mTitles);
+
+        mPager.setAdapter(mMyPagerAdapter);
         mTabs.setViewPager(mPager);
 
 
@@ -120,6 +115,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 
     }
+
+    private void initHandler() {
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                isExit = false;
+            }
+        };
+    }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -138,7 +144,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 goTo(ComputerActivity.class, false);
                 break;
             case R.id.nav_item4:
-
+                showDailog();
+//                goTo(MoneryActivity.class, false);
                 break;
             case R.id.nav_item5:
                 goTo(ChangePwdActivity.class, false);
@@ -153,12 +160,26 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     }
 
+    private void showDailog() {
+        final View inflate = LayoutInflater.from(this).inflate(R.layout.dailog_money, null);
+        new AlertDialog.Builder(this)
+                .setView(inflate)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        EditText edpwd = (EditText) inflate.findViewById(R.id.ed_pwd);
+                        String pwd = edpwd.getText().toString();
+                        mSettingPresent.checkpwd(pwd);
+                    }
+                })
+                .show();
+    }
+
     @Override
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
-
             exit();
         }
     }
@@ -178,7 +199,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
 
-    @OnClick({R.id.btn_account, R.id.btn_login})
+    @OnClick({R.id.btn_account, R.id.btn_login, R.id.more})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_account:
@@ -187,8 +208,34 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case R.id.btn_login:
                 System.exit(0);
                 break;
+            case R.id.more:
+                goTo(SettingActivity.class, false);
+                break;
         }
     }
 
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MyEvent event) {
+        mMaps = event.getMaps();
+        mTitles.clear();
+        for (Map<String, Object> map : mMaps) {
+            if ((Boolean) map.get("key"))
+                mTitles.add(map.get("tittle"));
+        }
+        mTitles.add(0, "首页");
+        Log.i(TAG, "onMessageEvent: " + mMaps);
+        mMyPagerAdapter.changeDate(mTitles);
+        mPager.setAdapter(mMyPagerAdapter);
+        mTabs.notifyDataSetChanged();
+        mTabs.setViewPager(mPager);
+
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

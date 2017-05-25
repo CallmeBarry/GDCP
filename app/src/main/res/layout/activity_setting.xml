@@ -2,12 +2,16 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_setting"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.qqdemo.administrator.gdcp.ui.activity.SplashActivity">
-
-    <ImageView
+    tools:context="com.qqdemo.administrator.gdcp.ui.activity.SettingActivity">
+    <include layout="@layout/title_bar"></include>
+    <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/splash"/>
+        />
+
 </LinearLayout>

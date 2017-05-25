@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
     <group  android:checkableBehavior="single">
 
@@ -31,7 +33,6 @@
             android:id="@+id/nav_LB_"
             android:icon="@mipmap/library"
             android:orderInCategory="100"
-            android:showAsAction="never"
             android:targetSdkVersion="8"
             android:title="权限查询"/>
     </menu>
