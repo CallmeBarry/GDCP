@@ -30,7 +30,7 @@ public class JSJFragment extends BaseFragment implements JSJFragmentView {
     @Override
     protected void init() {
         super.init();
-        JSJFragmentPresenter JSJFragmentPresenter = new JSJFragmentPresenterImpl(this);
+        JSJFragmentPresenter JSJFragmentPresenter = new JSJFragmentPresenterImpl(this,"http://jsxy.gdcp.cn/");
         JSJFragmentPresenter.onloadDate();
     }
 

@@ -1,5 +1,6 @@
 package com.qqdemo.administrator.gdcp.adapter;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,12 +34,17 @@ public class DateListAdapter extends RecyclerView.Adapter<DateListAdapter.DateLi
     @Override
     public void onBindViewHolder(DateListAdapter.DateListItemViewHolder holder, int position) {
 
-        Map<String, Object> point = dateslist.get(position);
+        final Map<String, Object> point = dateslist.get(position);
         String title = (String) point.get("title");
         String time = (String) point.get("time");
         holder.txt.setText(title);
         holder.time.setText(time);
-
+        holder.mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String href = (String) point.get("href");
+            }
+        });
 
     }
 
@@ -51,11 +57,13 @@ public class DateListAdapter extends RecyclerView.Adapter<DateListAdapter.DateLi
 
         private TextView txt;
         private TextView time;
+        private CardView mCardView;
 
         public DateListItemViewHolder(View itemView) {
             super(itemView);
             txt = (TextView) itemView.findViewById(R.id.tv_txt);
             time = (TextView) itemView.findViewById(R.id.tv_time);
+            mCardView= (CardView) itemView.findViewById(R.id.cardview);
         }
     }
 }

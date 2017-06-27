@@ -31,9 +31,8 @@ public class IndexFragment extends BaseFragment implements indexFragmentView {
             "http://a1.gdcp.cn/UploadFile/2390/2017/5/16/201751694146706.jpg",
             "http://a1.gdcp.cn/UploadFile/2390/2017/5/8/20175892057930.jpg",
             "http://a1.gdcp.cn/UploadFile/2390/2017/5/16/201751662615944.jpg",
-            "http://jsxy.gdcp.cn/UploadFile/2/2017/4/1/20174182586342.jpg",
-            "http://jsxy.gdcp.cn/UploadFile/2/2017/3/28/201732891684395.jpg",
-            "http://jsxy.gdcp.cn/UploadFile/2/2017/3/27/201732742576882.jpg"
+           "http://a1.gdcp.cn//UploadFile/2390/2017/5/27/201752742449166.jpg",
+            "http://a1.gdcp.cn/UploadFile/2390/2017/6/12/201761262533547.jpg"
     };
     @BindView(R.id.rv_dates)
     RecyclerView mRvDates;
